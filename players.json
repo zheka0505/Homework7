@@ -8,12 +8,12 @@
   {
     "id": 2,
     "nick": "bobo",
-    "points": 40,
+    "points": 53,
     "online": true
   },
   {
-    "id": 3,
-    "nick": "hoto",
+    "id": 5,
+    "nick": "koko",
     "points": 0,
     "online": true
   }

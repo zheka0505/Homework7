@@ -11,6 +11,18 @@
             <id>5</id>
             <nick>kkk</nick>
             <online>true</online>
+            <points>31</points>
+        </player>
+        <player>
+            <id>9</id>
+            <nick>yyy</nick>
+            <online>true</online>
+            <points>0</points>
+        </player>
+        <player>
+            <id>10</id>
+            <nick>ttt</nick>
+            <online>true</online>
             <points>0</points>
         </player>
     </players>

@@ -1,41 +1,34 @@
 package org.example;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
 
-import java.io.IOException;
+
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 
-public class PlayerServiceXML implements PlayerService {
+public class PlayerServiceXML {
 
 
     Path filePathXml = Path.of("players.xml");
     JAXBContext context = JAXBContext.newInstance(Player.class, PlayerWrapper.class);
-
-    /*PlayerWrapper playersXml = new PlayerWrapper(plList);
-
-     Marshaller marshaller = context.createMarshaller();
-        marshaller.marshal(playersXml, filePathXml.toFile());*/
+    Unmarshaller unmarshaller = context.createUnmarshaller();
+    Marshaller marshaller = context.createMarshaller();
 
     public PlayerServiceXML() throws JAXBException {
     }
 
 
     public String getPlayerById(int id) throws JAXBException {
-
-
-        Unmarshaller unmarshaller = context.createUnmarshaller();
         PlayerWrapper unmarshal = (PlayerWrapper) unmarshaller.unmarshal(filePathXml.toFile());
 
-        for (PlayerWrapper player : unmarshal)
+        for (Player player : unmarshal.getPlayersXml())
             if (player.getId() == id) {
                 return player.getNick();
             }
@@ -44,30 +37,48 @@ public class PlayerServiceXML implements PlayerService {
 
 
     }
-/*
-    // получить список игроков
-    public Collection<Player> getPlayers() throws IOException {
 
-        return mapper.readValue(filePath.toFile(), new TypeReference<>() {
-        });
+    // получить список игроков
+    public Collection<Player> getPlayers() throws JAXBException {
+        PlayerWrapper unmarshal = (PlayerWrapper) unmarshaller.unmarshal(filePathXml.toFile());
+        return unmarshal.getPlayersXml();
     }
 
     // создать игрока (возвращает id нового игрока)
-    public int createPlayer(String nickname) throws IOException {
+    public int createPlayer(String nickname) throws JAXBException {
+        PlayerWrapper unmarshal = (PlayerWrapper) unmarshaller.unmarshal(filePathXml.toFile());
+        List<Player> playersList = unmarshal.getPlayersXml();
 
-        List<Player> playersList = mapper.readValue(filePath.toFile(), new TypeReference<>() {
-        });
-        List<Player> newPlayerList = createNew(nickname, playersList);
-        mapper.writeValue(filePath.toFile(), newPlayerList);
+        int max = 1;
+        for (Player player : playersList) {
 
-        return newPlayerList.getLast().getId();
+            if (player.getId() > max) {
+                max = player.getId();
+            }
+
+        }
+
+        Player newPlayer = new Player();
+        newPlayer.setId(max + 1);
+        newPlayer.setNick(nickname);
+        newPlayer.setPoints(0);
+        newPlayer.setOnline(true);
+
+        playersList.add(newPlayer);
+
+        PlayerWrapper playersXml = new PlayerWrapper(playersList);
+        marshaller.marshal(playersXml, filePathXml.toFile());
+
+        return newPlayer.getId();
+
     }
 
     // удалить игрока по id'шнику, вернет удаленного игрока
-    public Player deletePlayer(int id) throws IOException {
+    public Player deletePlayer(int id) throws JAXBException {
         List<Player> newPlayers = new ArrayList<>();
-        List<Player> playersList = mapper.readValue(filePath.toFile(), new TypeReference<>() {
-        });
+        PlayerWrapper unmarshal = (PlayerWrapper) unmarshaller.unmarshal(filePathXml.toFile());
+        List<Player> playersList = unmarshal.getPlayersXml();
+
         Player deleted = new Player();
         for (Player player : playersList) {
             if (player.getId() != id) {
@@ -76,16 +87,19 @@ public class PlayerServiceXML implements PlayerService {
                 deleted = player;
             }
         }
-        mapper.writeValue(filePath.toFile(), newPlayers);
+
+        PlayerWrapper playersXml = new PlayerWrapper(newPlayers);
+        marshaller.marshal(playersXml, filePathXml.toFile());
         return deleted;
 
     }
 
     // добавить очков игроку. Возвращает обновленный счет
-    public int addPoints(int playerId, int points) throws IOException {
+    public int addPoints(int playerId, int points) throws JAXBException {
         List<Player> newPlayers = new ArrayList<>();
-        List<Player> playersList = mapper.readValue(filePath.toFile(), new TypeReference<>() {
-        });
+        PlayerWrapper unmarshal = (PlayerWrapper) unmarshaller.unmarshal(filePathXml.toFile());
+        List<Player> playersList = unmarshal.getPlayersXml();
+
         int addP = 0;
         for (Player player : playersList) {
 
@@ -96,9 +110,10 @@ public class PlayerServiceXML implements PlayerService {
             newPlayers.add(player);
 
         }
-        mapper.writeValue(filePath.toFile(), newPlayers);
+        PlayerWrapper playersXml = new PlayerWrapper(newPlayers);
+        marshaller.marshal(playersXml, filePathXml.toFile());
         return addP;
-    }*/
+    }
 }
 
 

@@ -13,7 +13,7 @@ public class PlayerServiceJSON implements PlayerService {
     Path filePath = Path.of("players.json");
     ObjectMapper mapper = new ObjectMapper();
 
-
+    // получить игрока по id
     public String getPlayerById(int id) throws IOException {
 
         List<Player> playersList = mapper.readValue(filePath.toFile(), new TypeReference<>() {
@@ -86,12 +86,12 @@ public class PlayerServiceJSON implements PlayerService {
         List<Player> newPlayers = new ArrayList<>();
         List<Player> playersList = mapper.readValue(filePath.toFile(), new TypeReference<>() {
         });
-        int addP =0;
+        int addP = 0;
         for (Player player : playersList) {
 
             if (player.getId() == playerId) {
-                player.setPoints(player.getPoints()+points);
-               addP = player.getPoints();
+                player.setPoints(player.getPoints() + points);
+                addP = player.getPoints();
             }
             newPlayers.add(player);
 

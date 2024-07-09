@@ -20,6 +20,10 @@ public class PlayerWrapper {
         this.playersXml = players;
     }
 
+    public List<Player> getPlayersXml() {
+        return playersXml;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
