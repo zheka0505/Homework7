@@ -1,1 +1,20 @@
-[{"id":1,"nick":"zheka","points":130,"online":true},{"id":3,"nick":"goga","points":0,"online":true}]
+[
+  {
+    "id": 1,
+    "nick": "zheka",
+    "points": 140,
+    "online": true
+  },
+  {
+    "id": 2,
+    "nick": "bobo",
+    "points": 40,
+    "online": true
+  },
+  {
+    "id": 3,
+    "nick": "hoto",
+    "points": 0,
+    "online": true
+  }
+]

@@ -1,12 +1,14 @@
 package org.example;
 
+import jakarta.xml.bind.JAXBException;
+
 import java.io.IOException;
 import java.util.Collection;
 
 public interface PlayerService {
 
     // получить игрока по id
-    String getPlayerById(int id) throws IOException;
+    String getPlayerById(int id) throws IOException, JAXBException;
 
     // получить список игроков
     Collection<Player> getPlayers() throws IOException;
