@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<playerWrapper>
+    <players>
+        <player>
+            <id>4</id>
+            <nick>ddd</nick>
+            <online>false</online>
+            <points>0</points>
+        </player>
+        <player>
+            <id>5</id>
+            <nick>kkk</nick>
+            <online>true</online>
+            <points>0</points>
+        </player>
+    </players>
+</playerWrapper>
